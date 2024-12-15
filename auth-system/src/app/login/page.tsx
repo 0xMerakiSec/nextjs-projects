@@ -25,11 +25,11 @@ export default function LoginPage() {
       setLoading(true);
 
       const response = await axios.post("/api/users/login", user);
-
+      // console.log(response);
       toast.success("Login Success");
       router.push("/profile");
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("Login Failed");
       console.log("Login failed :", error.message);
     } finally {
       setLoading(false);
@@ -72,11 +72,15 @@ export default function LoginPage() {
       </div>
       <button
         onClick={handleSubmit}
-        className="mt-4 px-12  py-2 rounded-2xl hover:bg-indigo-700 bg-indigo-900 font-semibold "
+        className={`mt-4 px-12  py-2 rounded-2xl hover:bg-indigo-700 bg-indigo-900 font-semibold ${
+          user.email && user.password ? "bg-green-600" : ""
+        }`}
         type="submit"
         // {...disabled}
       >
-        {buttonDisabled ? "Processing..." : "Login"}
+        {buttonDisabled && user.email && user.password
+          ? "Processing..."
+          : "Login"}
       </button>
       <Link href="/signup" className="font-extralight text-sm mt-2">
         Visit to Signup
